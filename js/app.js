@@ -16,31 +16,38 @@ let total = 0;
 
 for (let i = 0; i < tmp_thief.length; i++) {
     total += instruction_thief[i];
-}
 
-let h = 0;
-let z = 0;
-let interv = setInterval(() => {
-    if (h != instruction_thief[z]) {
-        tmp_thief[z].innerText = h;
-        h++;
-    } else {
-        h = 0;
-        z++;
-    }
-
-    if (z == tmp_thief.length) {
-        z = 0;
-        clearInterval(interv);
-    }
-}, 50);
-
-if (z == tmp_thief.length-1) {
+    let h = 0;
+    let z = 0;
     let y = 0;
-    setInterval(() => {
-        if (y != total) {
-            tmp_total.innerText = y;
-            y++;
+    let interv = setInterval(() => {
+        if (h != instruction_thief[z]) {
+            h++;
+            tmp_thief[z].innerText = h;
+        } else {
+            h = 0;
+            z++;
         }
-    }, 10);
+
+        if (z == instruction_thief.length) {
+            z = 0;
+            let interv_total = setInterval(() => {
+                if (y != total) {
+                    y++;
+                    tmp_total.innerText = y;
+                }
+
+                if (y == total) {
+                    clearInterval(interv_total);
+                    if (y < police) {
+                        alert("Vous vous êtes échapper");
+                    } else {
+                        alert("La police vous a attraper");
+                    }
+                }
+            }, 10);
+
+            clearInterval(interv);
+        }
+    }, 50);
 }
